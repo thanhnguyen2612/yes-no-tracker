@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        <title>Yes/No</title>
+        <style>
+            .btn-group {
+                margin: 50px;
+            }
+            #result {
+                margin-left: 50px;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                buttons = document.querySelectorAll("button");
+                buttons.forEach(button => {
+                    button.onclick = () => {
+                        const selection = button.dataset.selection;
+                        document.querySelector("#result").innerHTML = `You chose ${selection}. Thank you!!!`;
+                        const request = new XMLHttpRequest();
+                        request.open('POST', "/thank");
+
+                        const data = new FormData();
+                        data.append("selection", selection);
+                        // send request
+                        request.send(data);
+                    };
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="btn-group btn-group-lg group" role="group" aria-label="Button group">
+            <button type="button" class="btn btn-primary" data-selection="Yes"> Yes </button>
+            <button type="button" class="btn btn-danger" data-selection="No"> No </button>
+            <button type="button" class="btn btn-secondary" data-selection="Not given"> Not given </button>
+        </div>
+        <div id="result"></div>
+    </body>
+</html>
